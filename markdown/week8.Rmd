@@ -1,5 +1,51 @@
 ---
 title: "PSY 8960 Week 8 Project"
 author: "Saron Demeke"
-output: html_document
+output: 
+  html_document:
+    df_print: paged
 ---
+
+__Reproducible Image and Online Resources__\
+An image of this project as of *`r Sys.Date()`* can be accessed by clicking this link.\
+An interactive web app is available by clicking this link instead.
+
+__Script Settings and Resources__
+```{r, results='asis'}
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+library(tidyverse)
+library(shiny)
+library(rsconnect)
+library(tinytex)
+```
+
+__Data Import and Cleaning__\
+The following code chunk imports `week3.csv` and executes a series of data cleaning steps, including\ reverse coding of Q5 and computing row-wise mean scores on subsets of questions.
+```{r}
+week8_tbl <- read_csv("../data/week3.csv",show_col_types = FALSE) %>% 
+  mutate(q5 = abs(q5-6)) %>% 
+  rowwise() %>% 
+  mutate(mn_q1q6 = mean(c_across(q1:q6)),
+         mn_q8q10 = mean(c_across(q8:q10)))
+```
+
+__Visualization__\
+The following section displays the raw values for scores on Q1-Q6 (Q5 has been reverse coded)\ and a scatterplot of the mean scores on Q1-Q6 vs mean scores on Q8-Q10 with an overlayed\ regression line (purple) and standard error band.
+```{r, echo=FALSE}
+week8_tbl %>% 
+  select(c(q1:q6))
+
+ggplot(week8_tbl,aes(mn_q1q6,mn_q8q10)) +
+  geom_point() +
+  geom_smooth(method = "lm",formula = 'y ~ x',color="purple") +
+  scale_x_continuous("Mean Scores on Q1-Q6") +
+  scale_y_continuous("Mean Scores on Q8-Q10")
+```
+
+__Analysis__\
+The following section displays the results for a correlation test between mean scores on Q1-Q6 vs mean scores on Q8-10.\ The observed correlation is `r round(cor(week8_tbl$mn_q1q6, week8_tbl$mn_q8q10),2)`.\ The p-value of 0.56 suggests that the association between the mean scores on the two subsets of questions is not stastically significant and\ we would fail to reject the null hypothesis that the correlation is 0.
+```{r}
+cor.test(week8_tbl$mn_q1q6,week8_tbl$mn_q8q10) 
+```
+
+__Data Export__
