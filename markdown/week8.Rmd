@@ -11,9 +11,9 @@ knit: (function(inputFile, encoding) {
 ---
 
 __Reproducible Image and Online Resources__\
-An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link]("https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio").\
+An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link](https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio).\
 
-An interactive web app is available by [clicking this link]("https://sdemeke.shinyapps.io/shiny_week8/") instead.
+An interactive web app is available by [clicking this link](https://sdemeke.shinyapps.io/shiny_week8/) instead.
 
 __Script Settings and Resources__
 ```{r script_settings, message=TRUE}
