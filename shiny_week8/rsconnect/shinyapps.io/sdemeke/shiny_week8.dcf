@@ -1,0 +1,13 @@
+name: shiny_week8
+title: shiny_week8
+username:
+account: sdemeke
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8605780
+bundleId: 6976999
+url: https://sdemeke.shinyapps.io/shiny_week8/
+when: 1679178954.81676
+lastSyncTime: 1679178954.81677
+asMultiple: FALSE
+asStatic: FALSE
