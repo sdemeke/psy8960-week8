@@ -7,7 +7,7 @@ output:
 knit: (function(inputFile, encoding) { 
           rmarkdown::render(inputFile,
                         encoding=encoding, 
-                        output_dir='../out') })
+                        output_file='../out/week8.html') })
 ---
 
 __Reproducible Image and Online Resources__\
