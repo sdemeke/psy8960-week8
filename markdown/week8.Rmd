@@ -9,7 +9,7 @@ output:
 __Reproducible Image and Online Resources__\
 An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link]("https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio").\
 
-An interactive web app is available by clicking this link instead.
+An interactive web app is available by [clicking this link]() instead.
 
 __Script Settings and Resources__
 ```{r script_settings, message=TRUE}
@@ -26,8 +26,7 @@ __Data Import and Cleaning__\
 The following code chunk imports `week3.csv`, suppresses the column specification message, and executes\ a series of data cleaning steps, including reverse coding of Q5 and computing row-wise mean scores across specified subsets\ of questions using the complementary `rowwise()` and `c_across()` functions in the `dplyr` package.
 ```{r data_cleaning}
 week8_tbl <- read_csv("../data/week3.csv",show_col_types = FALSE) %>% 
-  mutate(q5 = abs(q5-6),
-         gender = factor(gender)) %>% 
+  mutate(q5 = abs(q5-6)) %>% 
   rowwise() %>% 
   mutate(mn_q1q6 = mean(c_across(q1:q6)),
          mn_q8q10 = mean(c_across(q8:q10)))
@@ -57,7 +56,8 @@ __Data Export__
 The following code chunk excludes variables saves the data in format appropriate for shiny. 
 ```{r}
 week8_tbl %>% 
-   saveRDS(file = "../shiny_week8/week8_shinydata.rds")
+ mutate(gender = factor(gender,levels=c("M","F"),labels=c("Male","Female"))) %>%  mutate(across(timeStart:timeEnd, \(x) ymd_hms(x,truncated = 3))) %>% 
+ saveRDS(file = "../shiny_week8/week8_shinydata.rds")
 ```
 
 
