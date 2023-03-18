@@ -7,45 +7,61 @@ output:
 ---
 
 __Reproducible Image and Online Resources__\
-An image of this project as of *`r Sys.Date()`* can be accessed by clicking this link.\
+An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link]("https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio").\
+
 An interactive web app is available by clicking this link instead.
 
 __Script Settings and Resources__
-```{r, results='asis'}
+```{r script_settings, message=TRUE}
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(tidyverse)
-library(shiny)
-library(rsconnect)
-library(tinytex)
+# library(shiny)
+# library(rsconnect) ##all these are for app.R not here
+# library(tinytex)
+#Suppress all output from this chunk but display a copy of executed code.???
+
 ```
 
 __Data Import and Cleaning__\
-The following code chunk imports `week3.csv` and executes a series of data cleaning steps, including\ reverse coding of Q5 and computing row-wise mean scores on subsets of questions.
-```{r}
+The following code chunk imports `week3.csv`, suppresses the column specification message, and executes\ a series of data cleaning steps, including reverse coding of Q5 and computing row-wise mean scores across specified subsets\ of questions using the complementary `rowwise()` and `c_across()` functions in the `dplyr` package.
+```{r data_cleaning}
 week8_tbl <- read_csv("../data/week3.csv",show_col_types = FALSE) %>% 
-  mutate(q5 = abs(q5-6)) %>% 
+  mutate(q5 = abs(q5-6),
+         gender = factor(gender)) %>% 
   rowwise() %>% 
   mutate(mn_q1q6 = mean(c_across(q1:q6)),
          mn_q8q10 = mean(c_across(q8:q10)))
+#ymd_hms. should i convert time vars? not used in later visualizations..
 ```
 
 __Visualization__\
-The following section displays the raw values for scores on Q1-Q6 (Q5 has been reverse coded)\ and a scatterplot of the mean scores on Q1-Q6 vs mean scores on Q8-Q10 with an overlayed\ regression line (purple) and standard error band.
-```{r, echo=FALSE}
+The following section displays the raw values for scores on selected columns Q1-Q6 (Q5 has been reverse coded)\ and a scatterplot of the mean scores on Q1-Q6 vs mean scores on Q8-Q10 with an overlayed\ regression line (purple) and standard error band. 
+```{r visualization, echo=FALSE}
 week8_tbl %>% 
   select(c(q1:q6))
 
-ggplot(week8_tbl,aes(mn_q1q6,mn_q8q10)) +
+ggplot(week8_tbl,aes(x=mn_q1q6,y=mn_q8q10)) +
   geom_point() +
-  geom_smooth(method = "lm",formula = 'y ~ x',color="purple") +
+  geom_smooth(method = "lm", formula = 'y ~ x', color="purple") +
   scale_x_continuous("Mean Scores on Q1-Q6") +
   scale_y_continuous("Mean Scores on Q8-Q10")
 ```
 
 __Analysis__\
 The following section displays the results for a correlation test between mean scores on Q1-Q6 vs mean scores on Q8-10.\ The observed correlation is `r round(cor(week8_tbl$mn_q1q6, week8_tbl$mn_q8q10),2)`.\ The p-value of 0.56 suggests that the association between the mean scores on the two subsets of questions is not stastically significant and\ we would fail to reject the null hypothesis that the correlation is 0.
-```{r}
+```{r correlation_analysis}
 cor.test(week8_tbl$mn_q1q6,week8_tbl$mn_q8q10) 
 ```
 
 __Data Export__
+The following code chunk excludes variables saves the data in format appropriate for shiny. 
+```{r}
+week8_tbl %>% 
+   saveRDS(file = "../shiny_week8/week8_shinydata.rds")
+```
+
+
+
+
+
+
