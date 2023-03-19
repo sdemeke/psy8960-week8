@@ -4,12 +4,10 @@ author: "Saron Demeke"
 output: 
   html_document:
     df_print: paged
-knit: (function(inputFile, encoding) { 
-          rmarkdown::render(inputFile,
-                        encoding=encoding, 
-                        output_file='../out/week8.html') })
+knit: (function(input, ...) { 
+        rmarkdown::render(input, output_file='../out/week8.html') })
 ---
-
+  
 __Reproducible Image and Online Resources__\
 An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link](https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio).\
 
@@ -19,7 +17,6 @@ __Script Settings and Resources__
 ```{r script_settings, message=FALSE}
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) #hash this out in binder!
 library(tidyverse)
-#Instructions "Suppress all output from this chunk but display a copy of executed code." Only output is suppressed message from tidyverse call
 ```
 
 __Data Import and Cleaning__\
