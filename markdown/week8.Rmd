@@ -1,6 +1,7 @@
 ---
 title: "PSY 8960 Week 8 Project"
 author: "Saron Demeke"
+date: "`r Sys.Date()`"
 output: 
   html_document:
     df_print: paged
@@ -8,19 +9,19 @@ knit: (function(input, ...) {
         rmarkdown::render(input, output_file='../out/week8.html') })
 ---
   
-__Reproducible Image and Online Resources__\
-An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link](https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio).\
+__Reproducible Image and Online Resources__
+
+An image of this project as of *`r Sys.Date()`* can be accessed by [clicking this link](https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio).
 
 An interactive web app is available by [clicking this link](https://sdemeke.shinyapps.io/shiny_week8/) instead.
 
 __Script Settings and Resources__
-```{r script_settings, message=FALSE}
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) #hash this out in binder!
+```{r setup, message=FALSE}
 library(tidyverse)
 ```
 
-__Data Import and Cleaning__\
-The following code chunk imports `week3.csv`, suppresses the column specification message, and executes\ a series of data cleaning steps, including reverse coding of Q5 and computing row-wise mean scores across specified subsets\ of questions using the complementary `rowwise()` and `c_across()` functions `dplyr` package.
+__Data Import and Cleaning__
+The following code chunk imports `week3.csv`, suppresses the column specification message, and executes a series of data cleaning steps, including reverse coding of Q5 and computing row-wise mean scores across specified subsets of questions using the complementary `rowwise()` and `c_across()` functions `dplyr` package.
 ```{r data_cleaning}
 week8_tbl <- read_csv("../data/week3.csv",show_col_types = FALSE) %>% 
   mutate(q5 = abs(q5-6)) %>% 
@@ -29,8 +30,8 @@ week8_tbl <- read_csv("../data/week3.csv",show_col_types = FALSE) %>%
          mn_q8q10 = mean(c_across(q8:q10)))
 ```
 
-__Visualization__\
-The following section displays the raw values for scores on selected columns Q1-Q6 (Q5 has been reverse coded)\ and a scatterplot of the mean scores on Q1-Q6 vs mean scores on Q8-Q10 with an overlayed\ regression line (purple) and standard error band. 
+__Visualization__
+The following section displays the raw values for scores on selected columns Q1-Q6 (Q5 has been reverse coded) and a scatterplot of the mean scores on Q1-Q6 vs mean scores on Q8-Q10 with an overlayed regression line (purple) and standard error band. 
 ```{r visualization, echo=FALSE}
 week8_tbl %>% 
   select(c(q1:q6))
@@ -42,19 +43,19 @@ ggplot(week8_tbl,aes(x=mn_q1q6,y=mn_q8q10)) +
   scale_y_continuous("Mean Scores on Q8-Q10")
 ```
 
-__Analysis__\
-The following section displays the results for a correlation test between mean scores on Q1-Q6 vs mean scores on Q8-10.\ The observed correlation is `r round(cor(week8_tbl$mn_q1q6, week8_tbl$mn_q8q10),2)`.\ The p-value of 0.56 suggests that the association between the mean scores on the two subsets of questions is not stastically significant and\ we would fail to reject the null hypothesis that the correlation is 0.
+__Analysis__
+The following section displays the results for a correlation test between mean scores on Q1-Q6 vs mean scores on Q8-10. The observed correlation is `r round(cor(week8_tbl$mn_q1q6, week8_tbl$mn_q8q10),2)`. The p-value of 0.56 suggests that the association between the mean scores on the two subsets of questions is not stastically significant and we would fail to reject the null hypothesis that the correlation is 0.
 ```{r correlation_analysis}
 cor.test(week8_tbl$mn_q1q6,week8_tbl$mn_q8q10) 
 ```
 
 __Data Export__
-The following code chunk excludes variables saves the data in format appropriate for shiny.
-Gender is recoded\ as a factor for more readable filtering in shiny and the two time variables are also recoded as POSIXct/POSIXt variables for easier selection and filtering.
+The following code chunk excludes variables that are not necessary for the Shiny app to run and saves the data in format appropriate for shiny. Gender is recoded\ as a factor for more readable filtering in shiny and the two time variables are also recoded as POSIXct/POSIXt variables for easier selection and filtering.
 ```{r}
 week8_tbl %>% 
+ select(c(gender,timeEnd,mn_q1q6,mn_q8q10)) %>% 
  mutate(gender = factor(gender,levels=c("M","F"),labels=c("Male","Female"))) %>% 
- mutate(across(timeStart:timeEnd, \(x) ymd_hms(x,truncated = 3))) %>% 
+ mutate(timeEnd =  ymd_hms(timeEnd,truncated = 3)) %>% 
  saveRDS(file = "../shiny_week8/week8_shinydata.rds")
 ```
 
