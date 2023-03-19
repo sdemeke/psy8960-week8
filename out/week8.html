@@ -1633,19 +1633,9 @@ this link</a>.<br />
 <p>An interactive web app is available by <a href="https://sdemeke.shinyapps.io/shiny_week8/">clicking this link</a>
 instead.</p>
 <p><strong>Script Settings and Resources</strong></p>
-<pre class="r"><code>setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.0     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.1     ✔ tibble    3.2.0
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ✔ purrr     1.0.1     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
-<pre class="r"><code>#Suppress all output from this chunk but display a copy of executed code.???</code></pre>
+<pre class="r"><code>setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) #hash this out in binder!
+library(tidyverse)
+#Instructions &quot;Suppress all output from this chunk but display a copy of executed code.&quot; Only output is suppressed message from tidyverse call</code></pre>
 <p><strong>Data Import and Cleaning</strong><br />
 The following code chunk imports <code>week3.csv</code>, suppresses the
 column specification message, and executes a series of data cleaning
