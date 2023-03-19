@@ -17,9 +17,9 @@ An interactive web app is available by [clicking this link](https://sdemeke.shin
 
 __Script Settings and Resources__
 ```{r script_settings, message=TRUE}
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) #hash this out in binder!
 library(tidyverse)
-#Suppress all output from this chunk but display a copy of executed code.???
+#Suppress all output from this chunk but display a copy of executed code.Only output is suppressed message from tidyverse call
 ```
 
 __Data Import and Cleaning__\

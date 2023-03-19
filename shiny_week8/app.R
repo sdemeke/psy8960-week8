@@ -4,6 +4,10 @@
 library(shiny)
 library(tidyverse) 
 
+
+#read in saved RDS for plot
+week8_shinydata <-  read_rds("./week8_shinydata.rds") 
+
 ui <- fluidPage(
 
     # Application title
@@ -32,9 +36,6 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-  #read in saved RDS for plot
-  week8_shinydata <-  read_rds("./week8_shinydata.rds") #check wd
-  
   #save POSITCX variable of Aug 1 2017 date
   checkAug17 <- ymd_hms("2017-08-01",truncated = 3)
   
