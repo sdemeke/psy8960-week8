@@ -11,7 +11,7 @@
 
 <meta name="author" content="Saron Demeke" />
 
-<meta name="date" content="2023-03-19" />
+<meta name="date" content="2023-03-20" />
 
 <title>PSY 8960 Week 8 Project</title>
 
@@ -1623,25 +1623,26 @@ display: none;
 
 <h1 class="title toc-ignore">PSY 8960 Week 8 Project</h1>
 <h4 class="author">Saron Demeke</h4>
-<h4 class="date">2023-03-19</h4>
+<h4 class="date">2023-03-20</h4>
 
 </div>
 
 
 <p><strong>Reproducible Image and Online Resources</strong></p>
-<p>An image of this project as of <em>2023-03-19</em> can be accessed by
+<p>An image of this project as of <em>2023-03-20</em> can be accessed by
 <a href="https://mybinder.org/v2/gh/sdemeke/psy8960-week8.git/HEAD?urlpath=rstudio">clicking
 this link</a>.</p>
 <p>An interactive web app is available by <a href="https://sdemeke.shinyapps.io/shiny_week8/">clicking this link</a>
 instead.</p>
 <p><strong>Script Settings and Resources</strong></p>
-<pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>#excluding the setwd() because knitting returns an error with it. everything is working without explicit setting of wd.
+library(tidyverse)</code></pre>
 <p><strong>Data Import and Cleaning</strong></p>
 <p>The following code chunk imports <code>week3.csv</code>, suppresses
 the column specification message, and executes a series of data cleaning
 steps, including reverse coding of Q5 and computing row-wise mean scores
 across specified subsets of questions using the complementary
-<code>rowwise()</code> and <code>c_across()</code> functions
+<code>rowwise()</code> and <code>c_across()</code> functions in
 <code>dplyr</code> package.</p>
 <pre class="r"><code>week8_tbl &lt;- read_csv(&quot;../data/week3.csv&quot;,show_col_types = FALSE) %&gt;% 
   mutate(q5 = abs(q5-6)) %&gt;% 
@@ -1681,9 +1682,9 @@ that the correlation is 0.</p>
 <p><strong>Data Export</strong></p>
 <p>The following code chunk excludes variables that are not necessary
 for the Shiny app to run and saves the data in format appropriate for
-shiny. Gender is recoded as a factor for more readable filtering in
-shiny and the two completed time variable is also recoded as
-POSIXct/POSIXt for easier selection and filtering.</p>
+shiny. Gender is recoded as a factor for easier filtering in shiny and
+the completed time variable is also recoded as POSIXct/POSIXt for easier
+selection and filtering.</p>
 <pre class="r"><code>week8_tbl %&gt;% 
  select(c(gender,timeEnd,mn_q1q6,mn_q8q10)) %&gt;% 
  mutate(gender = factor(gender,levels=c(&quot;M&quot;,&quot;F&quot;),labels=c(&quot;Male&quot;,&quot;Female&quot;))) %&gt;% 

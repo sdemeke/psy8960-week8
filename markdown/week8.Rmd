@@ -17,12 +17,13 @@ An interactive web app is available by [clicking this link](https://sdemeke.shin
 
 __Script Settings and Resources__
 ```{r setup, message=FALSE}
+#excluding the setwd() because knitting returns an error with it. everything is working without explicit setting of wd.
 library(tidyverse)
 ```
 
 __Data Import and Cleaning__
 
-The following code chunk imports `week3.csv`, suppresses the column specification message, and executes a series of data cleaning steps, including reverse coding of Q5 and computing row-wise mean scores across specified subsets of questions using the complementary `rowwise()` and `c_across()` functions `dplyr` package.
+The following code chunk imports `week3.csv`, suppresses the column specification message, and executes a series of data cleaning steps, including reverse coding of Q5 and computing row-wise mean scores across specified subsets of questions using the complementary `rowwise()` and `c_across()` functions in `dplyr` package.
 ```{r data_cleaning}
 week8_tbl <- read_csv("../data/week3.csv",show_col_types = FALSE) %>% 
   mutate(q5 = abs(q5-6)) %>% 
@@ -54,7 +55,7 @@ cor.test(week8_tbl$mn_q1q6,week8_tbl$mn_q8q10)
 
 __Data Export__
 
-The following code chunk excludes variables that are not necessary for the Shiny app to run and saves the data in format appropriate for shiny. Gender is recoded\ as a factor for more readable filtering in shiny and the two completed time variable is also recoded as POSIXct/POSIXt for easier selection and filtering.
+The following code chunk excludes variables that are not necessary for the Shiny app to run and saves the data in format appropriate for shiny. Gender is recoded\ as a factor for easier filtering in shiny and the completed time variable is also recoded as POSIXct/POSIXt for easier selection and filtering.
 ```{r}
 week8_tbl %>% 
  select(c(gender,timeEnd,mn_q1q6,mn_q8q10)) %>% 
